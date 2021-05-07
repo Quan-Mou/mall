@@ -30,6 +30,8 @@ import HomeSwiper from "./childcomps/HomeSwiper.vue";
 import MostPopular from "./childcomps/MostPopular.vue";
 import Recommended from "./childcomps/Recommended.vue";
 
+import { debounce } from "../../common/utils";  
+
 export default {
   data() {
     return {
@@ -69,9 +71,14 @@ export default {
     },
   },
   mounted() {
-    this.$bus.$on('itemImgLoad',() => {
-      this.$refs.scroll.refresh()
-    })
+    // 兄弟组件之间通信(goodslistitem.vue 和 home.vue) 用了事件总线 
+    // 1.
+    this.$bus.$on('itemImgLoad',this.debounce(this.$refs.scroll.refresh,200)) 
+    // 2.
+    // const refresh = debounce(this.$refs.scroll.refresh,200);
+    // this.$bus.$on('itemImgLoad',() => {
+    //   refresh()
+    // })
   },
   created() {
     
@@ -129,8 +136,19 @@ export default {
     },
     finishPullUp() {
       this.getGoodslist(this.currentIndex)
+    },
+    debounce(func,delay) {
+      let timer = null
+      return function(...args) {
+        if(timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          // console.log(this);
+          func.apply(this,args)
+          // console.log(args);
+        },delay)
+      }
     }
-  },
+  }
 };
 </script>
 
