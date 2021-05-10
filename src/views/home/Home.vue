@@ -1,13 +1,20 @@
 <template>
   <div id="home">
     <nav-top class="home-nav"><div slot="conter">购物车</div></nav-top>
+    <tab-control
+        :titles="['流行', '新款', '精选']"
+        @tabClick="tabClick"
+        ref="tabcontrol1"
+        v-show="tabShow"
+      ></tab-control>
     <scroll class="content" ref="scroll" :probe-type="3" :pullUpLoad="true" @finishPullUp="finishPullUp" @scrollTop="contentScroll">
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImg="swiperImg"></home-swiper>
       <recommended :recommends="recommends"></recommended>
       <most-popular />
       <tab-control
         :titles="['流行', '新款', '精选']"
         @tabClick="tabClick"
+        ref="tabcontrol2"
       ></tab-control>
       <!-- <goods-list :goods-list="getGoodsData[currentIndex].list"></goods-list> -->
       <!-- 使用计算属性 -->
@@ -52,7 +59,10 @@ export default {
         },
       },
       currentIndex: "pop",
-      isBackTop:false  
+      taboffsetTop:0,
+      isBackTop:false,
+      tabShow:false,
+      scrollY:0,
     };
   },
   components: {
@@ -79,6 +89,7 @@ export default {
     // this.$bus.$on('itemImgLoad',() => {
     //   refresh()
     // })
+
   },
   created() {
     
@@ -88,17 +99,11 @@ export default {
     this.getGoodslist("new");
     this.getGoodslist("sell");
     
-
-    // this.$bus.$on('itemImgLoad',() => {
-    //   this.$refs.scroll.refresh()
-    // })
   },
   methods: {
     // 网络请求：
     getHomeMultidata() {
       getHomeMultidata().then((ret) => {
-        console.log(ret);
-        // console.log(ret.data.data.banner.list);
         this.banners = ret.data.data.banner.list;
         this.recommends = ret.data.data.recommend.list;
       });
@@ -106,7 +111,6 @@ export default {
     getGoodslist(type) {
       const page = this.getGoodsData[type].page + 1;
       getGoodslist(type, page).then((ret) => {
-        // console.log(ret);
         this.getGoodsData[type].list.push(...ret.data.data.list);
         this.getGoodsData[type].page += 1;
 
@@ -127,12 +131,18 @@ export default {
           this.currentIndex = "sell";
           break;
       }
+      this.$refs.tabcontrol2.currentIndex = index
+      this.$refs.tabcontrol1.currentIndex = index
     },
     backTopClick() {
       this.$refs.scroll.scrollTo(0,0)
     },
     contentScroll(position) {
+      // 点击回到顶部
       this.isBackTop = (position.y) < -1200
+
+      this.tabShow = position.y < -this.$refs.tabcontrol2.$el.offsetTop
+      
     },
     finishPullUp() {
       this.getGoodslist(this.currentIndex)
@@ -147,8 +157,22 @@ export default {
           // console.log(args);
         },delay)
       }
+    },
+    swiperImg() {
+      this.taboffsetTop = this.$refs.tabcontrol2.$el.offsetTop
+      // console.log(this.taboffsetTop);
     }
+  },
+  activated() {
+    // '活跃的状态 activated' 
+    // this.$refs.scroll.scrollTo(0,this.scrollY,0)
+    
+  },
+  deactivated() {
+    // '不活跃的 状态 deactivated'
+    // this.scrollY = this.$refs.scroll.scroll.y
   }
+  
 };
 </script>
 
@@ -157,13 +181,16 @@ export default {
   position: relative;
   height: 100vh;
 }
-/* .home-nav {
-    position: fixed;
+.home-nav {
+  background-color: var(--color-high-text);
+  color: var(--color-background);
+
+    /* position: fixed;
     top:0;
     left: 0;
     right: 0;
-    z-index:10
-  } */
+    z-index:10 */
+  }
   .content {
     position: absolute;
     top:44px;
@@ -172,6 +199,6 @@ export default {
     bottom:49px;
     overflow: hidden;
     /* height: 1300px; */
-  
   }
+  
 </style>

@@ -21,8 +21,11 @@ export function request(config) {
     return response;
   }, err => {
     console.log('响应拦截失败！！！');
-    return err
+    return err 
   })
 
   return instance(config);
 }
+
+
+

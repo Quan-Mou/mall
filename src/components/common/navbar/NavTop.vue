@@ -13,18 +13,12 @@ export default {
 </script>
 
 <style>
-  #nav-bar{
+  #nav-bar{  
     height: 44px;
     line-height: 44px;
-    background-color: var(--color-high-text);
     display: flex;
     text-align: center;
-    color: var(--color-background);
-    position: fixed;
-    top:0;
-    left: 0;
-    right: 0;
-    z-index:10
+    box-shadow: 0 1px 1px rgba(100,100,100,.1);
   }
   .nav-left {
     width: 60px;

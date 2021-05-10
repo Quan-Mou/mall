@@ -1,13 +1,12 @@
 <template>
-  <div class="goods-list-item">
-    <a :href="goodsitem.link">
+  <div class="goods-list-item" @click="goodsItem">
+    {{goodsitem.iid}}
       <img :src="goodsitem.show.img" alt="" @load="ImgLoad">
     <div class="goods-info">
       <p>{{goodsitem.title}}</p>
       <span class="price">{{goodsitem.price}}</span>
       <span class="collect">{{goodsitem.cfav}}</span>
     </div>
-    </a>
   </div>
 </template>
 
@@ -21,11 +20,21 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      // id:this.goodsitem.iid
+    }
+  },
   methods:{
     ImgLoad() {
       this.$bus.$emit('itemImgLoad')
       // console.log(this.$bus);
       // this.$bus 是空的，所以需要在 Vue原型上定义一下
+    },
+    goodsItem() {
+      // this.$emit('goodsItem')
+      this.$router.push('/detail/'+this.goodsitem.iid)
+      // this.$router.push('/detail/'+ ‘)
     }
   }
 };
@@ -35,12 +44,13 @@ export default {
 .goods-list-item {
     padding-bottom: 40px;
     position: relative;
-    /* width: 150px; */
     width: 48%;
+    /* display: flex; */
   }
   .goods-list-item img {
     width: 100%;
     border-radius:5px;
+    height: 100%;
   }
 
   .goods-info {
