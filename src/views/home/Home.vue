@@ -7,7 +7,7 @@
         ref="tabcontrol1"
         v-show="tabShow"
       ></tab-control>
-    <scroll class="content" ref="scroll" :probe-type="3" :pullUpLoad="true" @finishPullUp="finishPullUp" @scrollTop="contentScroll">
+    <scroll class="wrapper" ref="scroll" :probe-type="3" :pullUpLoad="true" @finishPullUp="finishPullUp" @scrollTop="contentScroll">
       <home-swiper :banners="banners" @swiperImg="swiperImg"></home-swiper>
       <recommended :recommends="recommends"></recommended>
       <most-popular />
@@ -176,7 +176,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #home {
   position: relative;
   height: 100vh;
@@ -191,7 +191,7 @@ export default {
     right: 0;
     z-index:10 */
   }
-  .content {
+  .wrapper {
     position: absolute;
     top:44px;
     right:0;

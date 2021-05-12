@@ -38,7 +38,6 @@ export default {
     this.scroll.on('pullingUp',() => {
       console.log('下拉刷新');
       this.$emit('finishPullUp')
-      console.log(this.scroll);
     })
   },
   methods: {
@@ -53,5 +52,5 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 </style>
