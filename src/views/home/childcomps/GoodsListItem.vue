@@ -1,6 +1,5 @@
 <template>
   <div class="goods-list-item" @click="goodsItem">
-    {{goodsitem.iid}}
       <img :src="goodsitem.show.img" alt="" @load="ImgLoad">
     <div class="goods-info">
       <p>{{goodsitem.title}}</p>
