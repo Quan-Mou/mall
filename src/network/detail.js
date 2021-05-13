@@ -24,7 +24,7 @@ export class Goods {
 
 export class Shop {
   constructor(shopInfo) {
-    this.log = shopInfo.shopLogo
+    this.logo = shopInfo.shopLogo
     this.name = shopInfo.name
     this.fans = shopInfo.cFans
     this.sells = shopInfo.cSells

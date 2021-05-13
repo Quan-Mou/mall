@@ -1,9 +1,11 @@
 <template>
   <div class="detail">
     <detail-nav-bar></detail-nav-bar>
-    <detail-swiper :swiper-img="swiperImg"></detail-swiper>
-    <detail-base-info :goods="goods"></detail-base-info>
-    <detail-shop-info></detail-shop-info>
+    <scroll :probe-type="3" :pullUpLoad="true">
+      <detail-swiper :swiper-img="swiperImg"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shop=shop></detail-shop-info>
+    </scroll>
   </div>
   
 </template>
@@ -14,9 +16,10 @@ import {getDetail, Goods,Shop} from "../../network/detail"
 import DetailSwiper from './childcomps/DetailSwiper.vue'
 import DetailBaseInfo from './childcomps/DetailBaseInfo.vue'
 import DetailShopInfo from './childcomps/DetailShopInfo.vue'
+import Scroll from '../../components/common/scroll/Scroll.vue'
 export default {
   name:'Detail',
-  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo },
+  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo, Scroll },
   data() {
     return {
       iid:null,
