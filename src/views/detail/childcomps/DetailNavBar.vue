@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="detail-nav">
     <nav-top>
       <div slot="left" @click="imgClick">
         <img src="../../../assets/img/common/back.svg" alt="" class="left-img">
@@ -53,5 +53,10 @@ export default {
   }
   .active {
     color:var(--color-high-text)
+  }
+  .detail-nav {
+    position: relative;
+    z-index: 100;
+    background-color: #fff;
   }
 </style>

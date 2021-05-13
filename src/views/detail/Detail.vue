@@ -1,8 +1,8 @@
 <template>
   <div class="detail">
     <detail-nav-bar></detail-nav-bar>
-    <scroll :probe-type="3" :pullUpLoad="true">
-      <detail-swiper :swiper-img="swiperImg"></detail-swiper>
+    <scroll :probe-type="3" :pullUpLoad="true" class="wraper"  ref="scroll">
+      <detail-swiper :swiper-img="swiperImg" @swiperImgLoad="swiperImgLoad"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop=shop></detail-shop-info>
     </scroll>
@@ -46,10 +46,27 @@ export default {
       // 获取保存商铺信息
       this.shop = new Shop(data.shopInfo)
     })
+  },
+  methods:{
+    swiperImgLoad() {
+      this.$refs.scroll.refresh()
+    }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .detail {
+    position: relative;
+    height: 100vh;
+    z-index: 25;
+    background-color:#fff;
+  }
+  .wraper {
+    /* position: absolute;
+    top:44px;
+    left:0;
+    right: 0; */
+    height: calc(100% - 44px);
+  }
 </style>

@@ -2,7 +2,7 @@
     <div>
       <swiper class="swiper-item">
       <swiper-item v-for="(item,index) in swiperImg" :key="index" >
-        <img :src="item" alt="">
+        <img :src="item" alt="" @load="detailImgLoad">
         {{item}}
       </swiper-item>
     </swiper>
@@ -23,6 +23,20 @@ export default {
       default() {
         return []
       }
+    }
+  },
+  data() {
+    return{
+      isSwiperLoad:true
+    }
+  },
+  methods:{
+    detailImgLoad() {
+      if(this.isSwiperLoad) {
+        this.$emit('swiperImgLoad')
+        this.isSwiperLoad = false
+      }
+      
     }
   }
 }
