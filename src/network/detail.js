@@ -1,16 +1,4 @@
 import { request } from "./request"
-import axios from "axios"
-
-// export function getDetail(id) {
-//   return request({
-//     // url: 'http://152.136.185.210:7878/api/m5/detail',
-//     url: '/detail',
-//     params: {
-//       id
-//     }
-//   })
-// }
-
 
 export function getDetail(iid) {
   return request({
@@ -19,4 +7,28 @@ export function getDetail(iid) {
       iid
     }
   })
+}
+
+export class Goods {
+  constructor(columns,itemInfo,services) {
+    this.columns = columns,
+    this.title = itemInfo.title,
+    this.desc = itemInfo.desc,
+    this.newPrice = itemInfo.price,
+    this.oldPrice = itemInfo.oldPrice,
+    this.discount = itemInfo.discountDesc,
+    this.realPrice = itemInfo.lowNowPrice,
+    this.services = services
+  }
+}
+
+export class Shop {
+  constructor(shopInfo) {
+    this.log = shopInfo.shopLogo
+    this.name = shopInfo.name
+    this.fans = shopInfo.cFans
+    this.sells = shopInfo.cSells
+    this.score = shopInfo.score
+    this.goodsCount = shopInfo.cGoods
+  }
 }

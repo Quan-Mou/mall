@@ -2,22 +2,27 @@
   <div class="detail">
     <detail-nav-bar></detail-nav-bar>
     <detail-swiper :swiper-img="swiperImg"></detail-swiper>
-    {{iid}}
+    <detail-base-info :goods="goods"></detail-base-info>
+    <detail-shop-info></detail-shop-info>
   </div>
   
 </template>
 
 <script>
 import DetailNavBar from './childcomps/DetailNavBar.vue'
-import {getDetail} from "../../network/detail"
+import {getDetail, Goods,Shop} from "../../network/detail"
 import DetailSwiper from './childcomps/DetailSwiper.vue'
+import DetailBaseInfo from './childcomps/DetailBaseInfo.vue'
+import DetailShopInfo from './childcomps/DetailShopInfo.vue'
 export default {
   name:'Detail',
-  components: { DetailNavBar, DetailSwiper },
+  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo },
   data() {
     return {
       iid:null,
-      swiperImg:[]
+      swiperImg:[],
+      goods:{},
+      shop:{}
     } 
   },
   created() {
@@ -27,9 +32,16 @@ export default {
     // 根据 iid 得到 详情数据 
     getDetail(this.iid).then(ret => {
       console.log(ret); 
-      const data = ret.data
+      const data = ret.data.result
       // 保存轮播图数据
-      this.swiperImg = data.result.itemInfo.topImages
+      this.swiperImg = data.itemInfo.topImages
+
+      // 获取保存商品数据
+      this.goods = new Goods(data.columns,data.itemInfo,data.shopInfo.services)
+      console.log(this.goods);
+
+      // 获取保存商铺信息
+      this.shop = new Shop(data.shopInfo)
     })
   }
 }
