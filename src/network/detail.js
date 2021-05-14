@@ -32,3 +32,11 @@ export class Shop {
     this.goodsCount = shopInfo.cGoods
   }
 }
+
+// export class shopData {
+//   constructor(detailInfo) {
+//     this.desc = detailInfo.desc
+//     this.key = detailInfo.detailImage[0].key
+//     this.img = detailInfo.detailImage[0].list
+//   }
+// }

@@ -5,6 +5,7 @@
       <detail-swiper :swiper-img="swiperImg" @swiperImgLoad="swiperImgLoad"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop=shop></detail-shop-info>
+      <detail-goods-info :detail-info="detailGoods"></detail-goods-info>
     </scroll>
   </div>
   
@@ -17,15 +18,17 @@ import DetailSwiper from './childcomps/DetailSwiper.vue'
 import DetailBaseInfo from './childcomps/DetailBaseInfo.vue'
 import DetailShopInfo from './childcomps/DetailShopInfo.vue'
 import Scroll from '../../components/common/scroll/Scroll.vue'
+import DetailGoodsInfo from './childcomps/DetailGoodsInfo.vue'
 export default {
   name:'Detail',
-  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo, Scroll },
+  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo, Scroll, DetailGoodsInfo },
   data() {
     return {
       iid:null,
       swiperImg:[],
       goods:{},
-      shop:{}
+      shop:{},
+      detailGoods:{}
     } 
   },
   created() {
@@ -41,10 +44,15 @@ export default {
 
       // 获取保存商品数据
       this.goods = new Goods(data.columns,data.itemInfo,data.shopInfo.services)
-      console.log(this.goods);
 
       // 获取保存商铺信息
       this.shop = new Shop(data.shopInfo)
+
+      // 获取保存商品数据
+      // this.detailGoods = new shopData(data.detailInfo)  
+      this.detailGoods = data.detailInfo
+      console.log(this.detailGoods);
+      
     })
   },
   methods:{
