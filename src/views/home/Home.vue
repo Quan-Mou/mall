@@ -143,7 +143,7 @@ export default {
 
       this.tabShow = position.y < -this.$refs.tabcontrol2.$el.offsetTop
       
-    },
+    }, 
     finishPullUp() {
       this.getGoodslist(this.currentIndex)
     },
@@ -165,18 +165,21 @@ export default {
   },
   activated() {
     // '活跃的状态 activated' 
-    // this.$refs.scroll.scrollTo(0,this.scrollY,0)
-    
+    // 有时候就算使用了 keep-alive 当我从详情页跳转到 首页还会是回到顶部，所以使用 路由离开时，和进入时这两个回调函数
+    this.$refs.scroll.scrollTo(0,this.scrollY,100)
   },
   deactivated() {
     // '不活跃的 状态 deactivated'
-    // this.scrollY = this.$refs.scroll.scroll.y
+    this.scrollY = this.$refs.scroll.scroll.y
+  },
+  destroyed(){
+    console.log('组件销毁');
   }
   
 };
 </script>
 
-<style>
+<style scoped>
 #home {
   position: relative;
   height: 100vh;

@@ -32,14 +32,14 @@ export default {
     },
     goodsItem() {
       // this.$emit('goodsItem')
-      this.$router.push('/detail/'+this.goodsitem.iid)
+      this.$router.push('/detail/'+this.goodsitem.iid) 
       // this.$router.push('/detail/'+ ‘)
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .goods-list-item {
     padding-bottom: 40px;
     position: relative;

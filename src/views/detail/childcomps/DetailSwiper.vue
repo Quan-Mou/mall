@@ -1,50 +1,43 @@
 <template>
-    <div>
-      <swiper class="swiper-item">
-      <swiper-item v-for="(item,index) in swiperImg" :key="index" >
-        <img :src="item" alt="" @load="detailImgLoad">
-        {{item}}
-      </swiper-item>
-    </swiper>
-    
-    </div>
-
+  <swiper class="detail-swiper">
+    <swiper-item v-for="(item,index) in topImgs" :key="index">
+      <img :src="item" alt="" @load="ImgLoad">
+    </swiper-item>
+  </swiper>
 </template>
 
 <script>
 import Swiper from '../../../components/common/swiper/Swiper.vue'
 import SwiperItem from '../../../components/common/swiper/SwiperItem.vue'
-
 export default {
-  components: { Swiper,SwiperItem,  },
-  props: {
-    swiperImg:{
+  components: { Swiper, SwiperItem },
+  props:{
+    topImgs:{ 
       type:Array,
-      default() {
+      default(){
         return []
       }
     }
-  },
+  }, 
   data() {
-    return{
-      isSwiperLoad:true
+    return {
+      isImg:true
     }
   },
   methods:{
-    detailImgLoad() {
-      if(this.isSwiperLoad) {
-        this.$emit('swiperImgLoad')
-        this.isSwiperLoad = false
+    ImgLoad() {
+      if(this.isImg) {
+        this.$emit('ImgLoad')
+        this.isImg = false
       }
-      
     }
   }
 }
 </script>
 
-<style>
-  .swiper-item {
+<style scoped>
+.detail-swiper {
     height: 300px;
-    overflow:hidden;
+    overflow: hidden;
   }
 </style>

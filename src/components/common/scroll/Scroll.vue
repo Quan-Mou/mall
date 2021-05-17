@@ -34,10 +34,12 @@ export default {
     this.scroll.on("scroll", (position) => {
       // console.log(position.y) 
       this.$emit("scrollTop", position);
+      
     });
-    this.scroll.on('pullingUp',() => {
+    this.scroll.on('pullingUp',() => { 
       console.log('下拉刷新');
       this.$emit('finishPullUp')
+      // console.log(this.scroll);
     })
   },
   methods: {
