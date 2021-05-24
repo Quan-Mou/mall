@@ -2,6 +2,7 @@
   <div id="cart">
     <nav-top class="cart-nav"><div slot="conter">购物车({{CartListLength}})</div></nav-top>
       <cart-list></cart-list>
+      <cart-bottom></cart-bottom>
   </div>
 </template>
 
@@ -9,9 +10,10 @@
 import NavTop from '../../components/common/navbar/NavTop.vue'
 import CartList from './childcomps/CartList.vue'
 import {mapGetters} from 'vuex'
+import CartBottom from './childcomps/CartBottom.vue'
 
 export default {
-  components: {NavTop, CartList,  },
+  components: {NavTop, CartList, CartBottom,  },
   computed:{
     ...mapGetters(['CartListLength'])
   },

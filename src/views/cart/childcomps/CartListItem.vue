@@ -1,9 +1,6 @@
 <template>
-  <!-- <div>
-    {{$store.state.CartList}}
-  </div> -->
-
   <div class="shop-info">
+    
     <div class="img">
       <img :src="cartInfo.img" alt="">
     </div>
@@ -23,9 +20,12 @@ export default {
   props:{
     cartInfo:{
       type:Object
-    }
+    },
+    
   },
-
+  updated() {
+    
+  }
 }
 </script>
 

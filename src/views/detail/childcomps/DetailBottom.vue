@@ -63,10 +63,13 @@ export default {
   }
   .cart {
     background-color: #ffe817;;
+    padding: 0 4px;
+    font-size: 14px;
   }
   .buy {
     background-color: #f69;
     color:#fff;
+    font-size:14px;
   }
   .shop-ico {
     background-position:0 -98px;

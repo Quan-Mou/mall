@@ -8,11 +8,6 @@
       ref="scroll"
       @scrollTop="scrollTop"
     >
-    <!-- <h2>{{this.$store.state.CartList}}</h2> -->
-    <ul>
-      <li v-for="(item,index) in $store.state.CartList" :key="index">{{item}}</li>
-    </ul>
-    
       <detail-swiper :top-imgs="topImgs" @ImgLoad="ImgLoad"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
