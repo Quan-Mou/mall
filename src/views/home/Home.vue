@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <nav-top class="home-nav"><div slot="conter">购物车</div></nav-top>
-    <tab-control
+    <tab-control 
         :titles="['流行', '新款', '精选']"
         @tabClick="tabClick"
         ref="tabcontrol1"
@@ -13,7 +13,7 @@
       <most-popular />
       <tab-control
         :titles="['流行', '新款', '精选']"
-        @tabClick="tabClick"
+        @tabClick="tabClick" 
         ref="tabcontrol2"
       ></tab-control>
       <!-- <goods-list :goods-list="getGoodsData[currentIndex].list"></goods-list> -->
@@ -38,7 +38,7 @@ import MostPopular from "./childcomps/MostPopular.vue";
 import Recommended from "./childcomps/Recommended.vue";
 
 import { debounce } from "../../common/utils";  
-
+// import {imgLoadMixin} from "../../common/mixin"
 export default {
   data() {
     return {
@@ -63,6 +63,7 @@ export default {
       isBackTop:false,
       tabShow:false,
       scrollY:0,
+      controlTop:0
     };
   },
   components: {
@@ -75,21 +76,11 @@ export default {
     Scroll,
     BackTop,
   },
+  // mixins:[imgLoadMixin],
   computed: {
     showGoods() {
       return this.getGoodsData[this.currentIndex].list;
     },
-  },
-  mounted() {
-    // 兄弟组件之间通信(goodslistitem.vue 和 home.vue) 用了事件总线 
-    // 1.
-    this.$bus.$on('itemImgLoad',this.debounce(this.$refs.scroll.refresh,200)) 
-    // 2.
-    // const refresh = debounce(this.$refs.scroll.refresh,200);
-    // this.$bus.$on('itemImgLoad',() => {
-    //   refresh()
-    // })
-
   },
   created() {
     
@@ -98,7 +89,6 @@ export default {
     this.getGoodslist("pop");
     this.getGoodslist("new");
     this.getGoodslist("sell");
-    
   },
   methods: {
     // 网络请求：
@@ -131,6 +121,8 @@ export default {
           this.currentIndex = "sell";
           break;
       }
+      // console.log(index);
+      
       this.$refs.tabcontrol2.currentIndex = index
       this.$refs.tabcontrol1.currentIndex = index
     },
@@ -142,40 +134,36 @@ export default {
       this.isBackTop = (position.y) < -1200
 
       this.tabShow = position.y < -this.$refs.tabcontrol2.$el.offsetTop
-      
+       
     }, 
     finishPullUp() {
       this.getGoodslist(this.currentIndex)
     },
     debounce(func,delay) {
       let timer = null
+      
       return function(...args) {
         if(timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          // console.log(this);
+        timer = setTimeout(() => {  
           func.apply(this,args)
-          // console.log(args);
         },delay)
-      }
+      } 
     },
     swiperImg() {
       this.taboffsetTop = this.$refs.tabcontrol2.$el.offsetTop
-      // console.log(this.taboffsetTop);
     }
   },
   activated() {
-    // '活跃的状态 activated' 
-    // 有时候就算使用了 keep-alive 当我从详情页跳转到 首页还会是回到顶部，所以使用 路由离开时，和进入时这两个回调函数
-    this.$refs.scroll.scrollTo(0,this.scrollY,100)
+    this.$refs.scroll.scrollTo(0,this.scrollY,0)
+    this.$refs.scroll.refresh()
   },
   deactivated() {
-    // '不活跃的 状态 deactivated'
     this.scrollY = this.$refs.scroll.scroll.y
   },
-  destroyed(){
-    console.log('组件销毁');
-  }
-  
+ 
+  mounted() {
+    this.$bus.$on('itemImgLoad',debounce(this.$refs.scroll.refresh,200))
+  },
 };
 </script>
 

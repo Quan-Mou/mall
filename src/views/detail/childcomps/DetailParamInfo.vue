@@ -1,16 +1,21 @@
 <template>
-  <div class="params-info">
-    <table v-for="(table,index) in paramsInfo.rule.tables" :key="index">
-      <tr v-for="(tr,indey) in table" :key="indey">
-        <td v-for="(td ,indez) in tr" :key="indez">{{td}}</td>
-      </tr>
-    </table>
-    <table>
-      <tr v-for="(tr,index) in paramsInfo.info.set" :key="index">
-        <td class="info-param-key">{{tr.key}}</td>
-        <td class="param-value">{{tr.value}}</td>
-      </tr>
-    </table> 
+  <div class="params-info" >
+    <!-- 这里数据加v-if 是反正数据还没拿过来，就已经渲染页面了，所以加个判断是他数据已经过来在渲染 -->
+    <div v-if="paramsInfo.rule">
+      <table v-for="(table,index) in paramsInfo.rule.tables" :key="index" >
+         <tr v-for="(tr,indey) in table" :key="indey">
+           <td v-for="(td ,indez) in tr" :key="indez">{{td}}</td>
+         </tr>
+      </table>
+    </div>
+    <div >
+      <table v-if="paramsInfo.info">
+        <tr v-for="(tr,index) in paramsInfo.info.set" :key="index">
+          <td class="info-param-key">{{tr.key}}</td>
+          <td class="param-value">{{tr.value}}</td>
+        </tr>
+      </table> 
+    </div>
     <!-- <div class="info-img" v-if="paramsInfo.image.length !== 0">
       <img :src="paramsInfo.image" alt="">
     </div> -->

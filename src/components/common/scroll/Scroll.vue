@@ -9,26 +9,29 @@
 <script>
 import BScroll from "better-scroll";
 export default {
+  name: "Scroll",
   data() {
     return {
       scroll: null,
+      message:'你好'
     };
   },
   props: {
     probetype: {
       type: Number,
-      default: 0,
+      default: 0
     },
     pullUpLoad: {
-      type: Boolean,
-      default: false,
+      // type: Boolean,
+      type: Boolean
     },
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
-      probeType: this.probetype,
       click: true,
+      probeType: this.probetype,
       pullUpLoad: this.pullUpLoad,
+      observeDOM:true
       // 
     });
     this.scroll.on("scroll", (position) => {

@@ -24,10 +24,10 @@ export default {
   methods:{
     itemClick(index){
       this.currentIndex = index
+      this.$emit('navClick',index)
     },
     Back() {
       this.$router.back()
-      // history.back()
     }
   }
 }

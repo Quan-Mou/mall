@@ -1,6 +1,6 @@
 <template>
   <div class="goods-list-item" @click="goodsItem">
-      <img :src="goodsitem.show.img" alt="" @load="ImgLoad">
+      <img :src="showImg" alt="" @load="ImgLoad">
     <div class="goods-info">
       <p>{{goodsitem.title}}</p>
       <span class="price">{{goodsitem.price}}</span>
@@ -17,7 +17,7 @@ export default {
       default() {
         return {};
       },
-    },
+    }
   },
   data() {
     return {
@@ -34,6 +34,12 @@ export default {
       // this.$emit('goodsItem')
       this.$router.push('/detail/'+this.goodsitem.iid) 
       // this.$router.push('/detail/'+ ‘)
+    }
+  },
+  computed: {
+    showImg() {
+      return this.goodsitem.image || this.goodsitem.show.img
+      // return this.goodsitem.show.img || this.goodsitem.image
     }
   }
 };

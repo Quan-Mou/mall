@@ -4,11 +4,12 @@
       <div class="header-title">用户评价</div>
       <div class="more">
         更多 
-        <!-- arrow-right 样式是写在 base.css 里面的 -->
+        <!-- arrow-right 样式是写在 base.cs s 里面的 -->
         <i class="arrow-right"></i>
       </div>
     </div> 
-    <div class="info-user">
+    <!-- 防止数据还没过来，所以做个判断，有数据再让它展示 -->
+    <div class="info-user" v-if="commentsInfo.user">
       <img :src="commentsInfo.user.avatar" alt="">
       <span>{{commentsInfo.user.uname}}</span>
     </div>

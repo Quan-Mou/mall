@@ -1,18 +1,34 @@
 <template>
-  <div>
-    <!-- <h2>购物车页</h2> -->
-    <better-scroll></better-scroll>
+  <div id="cart">
+    <nav-top class="cart-nav"><div slot="conter">购物车({{CartListLength}})</div></nav-top>
+      <cart-list></cart-list>
   </div>
 </template>
 
 <script>
-import BetterScroll from '../category/BetterScroll.vue'
+import NavTop from '../../components/common/navbar/NavTop.vue'
+import CartList from './childcomps/CartList.vue'
+import {mapGetters} from 'vuex'
+
 export default {
-  components: { BetterScroll },
-  
+  components: {NavTop, CartList,  },
+  computed:{
+    ...mapGetters(['CartListLength'])
+  },
+
 }
 </script>
 
-<style>
-
+<style scoped>
+#cart {
+  height: 100vh;
+}
+  .cart-nav { 
+    background-color:var(--color-high-text);
+    color:#fff;
+    font-weight: 700;
+  }
+  .cart-nav div {
+    letter-spacing:1px;
+  }
 </style>

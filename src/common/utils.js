@@ -8,4 +8,4 @@ export function debounce(func,delay) {
       // console.log(args);
     },delay)
   }
-}
+} 
