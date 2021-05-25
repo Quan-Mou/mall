@@ -13,6 +13,7 @@
       <img :src="commentsInfo.user.avatar" alt="">
       <span>{{commentsInfo.user.uname}}</span>
     </div>
+    <!-- v-if="commentsInfo.content && commentsInfo.created && commentsInfo.style" -->
     <div class="info-detail">
       <p class="comment">{{commentsInfo.content}}</p>
       <div class="comment-style">

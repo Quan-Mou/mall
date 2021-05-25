@@ -40,7 +40,7 @@ export default {
       
     });
     this.scroll.on('pullingUp',() => { 
-      console.log('下拉刷新');
+      // console.log('下拉刷新');
       this.$emit('finishPullUp')
       // console.log(this.scroll);
     })

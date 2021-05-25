@@ -95,7 +95,6 @@ export default {
         data.columns,
         data.shopInfo.services
       );
-      console.log(this.goods);
 
       // 保存店铺信息
       this.shop = new Shop(data.shopInfo);
@@ -131,7 +130,6 @@ export default {
     this.detailTopYs.push(this.$refs.comment.$el.offsetTop)
     this.detailTopYs.push(this.$refs.goods.$el.offsetTop)
     this.detailTopYs.push(Number.MAX_VALUE)
-    console.log(this.detailTopYs);
     },
     navClick(index) {
       // this.$refs.scroll.scrollTo(0, -this.navTopYs[index] , 200);

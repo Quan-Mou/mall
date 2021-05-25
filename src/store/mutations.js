@@ -3,6 +3,7 @@ export default {
         payload.count++;
     },
     addCart(state, payload) {
+        payload.checked = true;
         state.CartList.push(payload);
     }
 };
