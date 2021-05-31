@@ -1,6 +1,10 @@
 <template>
   <div class="detail">
-    <detail-nav-bar class="nav-bar" @navClick="navClick" ref="nav"></detail-nav-bar>
+    <detail-nav-bar
+      class="nav-bar"
+      @navClick="navClick"
+      ref="nav"
+    ></detail-nav-bar>
     <scroll
       :probetype="3"
       :pull-up-load="false"
@@ -28,6 +32,7 @@
     </scroll>
     <back-top v-show="isBackTop" @click.native="backTopClick"></back-top>
     <detail-bottom @addToCart="addToCart"></detail-bottom>
+    <!-- <toast :isShow="isShow" :message="message"></toast> -->
   </div>
 </template> 
  
@@ -44,9 +49,12 @@ import DetailCommentInfo from "./childcomps/DetailCommentInfo.vue";
 import GoodsList from "../home/childcomps/GoodsList.vue";
 
 import { debounce } from "../../common/utils";
-import BackTop from '../../components/content/backTop/BackTop.vue';
-import {imgLoadMixin,BackTopMixin} from "../../common/mixin"
-import DetailBottom from './childcomps/DetailBottom.vue';
+import BackTop from "../../components/content/backTop/BackTop.vue";
+import { imgLoadMixin, BackTopMixin } from "../../common/mixin";
+import DetailBottom from "./childcomps/DetailBottom.vue";
+
+import { mapActions } from "vuex";
+// import Toast from "../../components/common/toast/Toast.vue";
 
 export default {
   name: "Detail",
@@ -61,7 +69,8 @@ export default {
     DetailCommentInfo,
     GoodsList,
     BackTop,
-    DetailBottom
+    DetailBottom,
+    // Toast,
   },
   data() {
     return {
@@ -74,11 +83,13 @@ export default {
       commentsInfo: {},
       recommendList: [],
       detailTopYs: [],
-      product:{}
+      product: {},
+      // isShow: false,
+      // message: "",
     };
   },
   // 回到顶部使用了混入
-  mixins:[BackTopMixin],
+  mixins: [BackTopMixin],
   created() {
     // 保存id 信息
     this.iid = this.$route.params.iid;
@@ -117,69 +128,78 @@ export default {
         this.recommendList = data.list;
       });
     });
-
   },
   methods: {
+    ...mapActions(["addCart"]),
     ImgLoad() {
-      this.$refs.scroll.refresh()
+      this.$refs.scroll.refresh();
     },
     imageLoad() {
-      this.$refs.scroll.refresh()
-      this.detailTopYs.push(0)
-    this.detailTopYs.push(this.$refs.params.$el.offsetTop)
-    this.detailTopYs.push(this.$refs.comment.$el.offsetTop)
-    this.detailTopYs.push(this.$refs.goods.$el.offsetTop)
-    this.detailTopYs.push(Number.MAX_VALUE)
+      this.$refs.scroll.refresh();
+      this.detailTopYs.push(0);
+      this.detailTopYs.push(this.$refs.params.$el.offsetTop);
+      this.detailTopYs.push(this.$refs.comment.$el.offsetTop);
+      this.detailTopYs.push(this.$refs.goods.$el.offsetTop);
+      this.detailTopYs.push(Number.MAX_VALUE);
     },
     navClick(index) {
       // this.$refs.scroll.scrollTo(0, -this.navTopYs[index] , 200);
-      this.$refs.scroll.scrollTo(0,-this.detailTopYs[index],200)
+      this.$refs.scroll.scrollTo(0, -this.detailTopYs[index], 200);
     },
     scrollTop(position) {
-      this.isBackTop = (position.y) < -1200
-      const positionY = -position.y
+      this.isBackTop = position.y < -1200;
+      const positionY = -position.y;
       let length = this.detailTopYs.length;
-      for (let i = 0; i<length; i++) {
-        if (((i < length - 1 && positionY >= this.detailTopYs[i] && positionY < this.detailTopYs [i + 1] || (i === length - 1 && positionY >= this.detailTopYs[i])))) {
-          this.$refs.nav.currentIndex = i
+      for (let i = 0; i < length; i++) {
+        if (
+          (i < length - 1 &&
+            positionY >= this.detailTopYs[i] &&
+            positionY < this.detailTopYs[i + 1]) ||
+          (i === length - 1 && positionY >= this.detailTopYs[i])
+        ) {
+          this.$refs.nav.currentIndex = i;
         }
       }
 
-
-        // for (let i = 0 ; i< this.detailTopYs.length - 1; i++) {
+      // for (let i = 0 ; i< this.detailTopYs.length - 1; i++) {
       //   if (positionY >= this.detailTopYs[i] && positionY < this.detailTopYs[i + 1]) {
       //         this.$refs.nav.currentIndex = i
       //   }
       // }
-      
-      
     },
     addToCart() {
       // 获取商品信心
-      let product = {}
-      product.img = this.topImgs[0]
-      product.title = this.goods.title
-      product.desc = this.goods.desc
-      product.price = this.goods.newPrice
-      product.iid = this.iid
+      let product = {};
+      product.img = this.topImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
       console.log(product);
       // console.log('点击了添加购物车');
-
+      // console.log(this.goods);
       // 使用 vuex管理 购物车数据
       // this.$store.commit('addCart',product)
-      this.$store.dispatch('addCart',product)
-    }
-  },
-  mounted() {
+      // this.$store.dispatch("addCart", product);
+      this.addCart(product).then((ret) => {
+        console.log(ret);
 
+        // this.isShow = true;
+        // this.message = ret;
+        // setTimeout(() => {
+        //   this.isShow = false;
+        //   this.message = "";
+        // }, 2000);
+        this.$toast.show(ret, 1500);
+      });
+    },
   },
+  mounted() {},
   updated() {
-    // 获取各个组件的offsetTop值，存在一个数组里面 
-    this.$refs.scroll.refresh()
+    // 获取各个组件的offsetTop值，存在一个数组里面
+    this.$refs.scroll.refresh();
   },
-  destroyed() {
-      
-  },
+  destroyed() {},
 };
 </script>
 

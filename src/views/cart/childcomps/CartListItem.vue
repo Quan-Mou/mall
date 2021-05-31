@@ -13,7 +13,7 @@
       <div class="title">{{ cartInfo.title }}</div>
       <div class="desc">商品描述: {{ cartInfo.desc }}</div>
       <div class="price">
-        <div class="item-price left">{{ cartInfo.price }}</div>
+        <div class="item-price left">￥{{ cartInfo.price }}</div>
         <div class="item-count right">x{{ cartInfo.count }}</div>
       </div>
     </div>
